@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delta Symbol Centered with Google Login</title>
+    <title>Delta Symbol as Button with Google Login</title>
     <style>
         body {
             display: flex;
-            flex-direction: column; /* Change to column to stack elements */
+            flex-direction: column; /* Stack elements vertically */
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
-            color: #000; /* Color of the symbol */
+            color: #000; /* Color of the text */
         }
         #delta-symbol {
-            font-size: 150px; /* Adjust the size of the symbol */
+            cursor: pointer; /* Change cursor to pointer for clickable image */
+            margin-bottom: 20px; /* Space between delta image and login */
         }
         #user-info {
             display: none; /* Initially hidden */
@@ -31,9 +32,9 @@
     <meta name="google-signin-client_id" content="a7rt.apps.googleusercontent.com"> <!-- Replace with your client ID -->
 </head>
 <body>
-    <div id="delta-symbol">Δ</div><!-- Greek letter Delta -->
+    <img id="delta-symbol" src="a7rt-120x120-B.png" alt="Delta Symbol" width="150" height="150" onclick="handleDeltaClick()">
 
-    <div id="g_id_signin" class="g_id_signin">
+    <div id="g_id_signin" class="g_id_signin" style="display: none;">
         <div class="g_id_signin" data-type="standard"></div>
     </div>
 
@@ -44,19 +45,24 @@
     </div>
 
     <script>
+        function handleDeltaClick() {
+            // Show the Google Sign-In button when the delta image is clicked
+            document.getElementById('g_id_signin').style.display = "block";
+        }
+
         function onSignIn(googleUser) {
             var profile = googleUser.getBasicProfile();
             document.getElementById('user-name').textContent = profile.getName();
             document.getElementById('user-email').textContent = profile.getEmail();
-            document.getElementById('user-info').style.display = "block";
-            document.getElementById('g_id_signin').style.display = "none";
+            document.getElementById('user-info').style.display = "block"; // Show user info
+            document.getElementById('g_id_signin').style.display = "none"; // Hide sign-in button
         }
 
         function signOut() {
             var auth2 = gapi.auth2.getAuthInstance();
             auth2.signOut().then(function () {
-                document.getElementById('user-info').style.display = "none";
-                document.getElementById('g_id_signin').style.display = "block";
+                document.getElementById('user-info').style.display = "none"; // Hide user info
+                document.getElementById('g_id_signin').style.display = "block"; // Show sign-in button
             });
         }
 
