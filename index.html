@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delta Symbol as Button with Google Login</title>
+    <title>Google Sign-In Integration</title>
     <style>
         body {
             display: flex;
@@ -16,26 +16,12 @@
             font-family: Arial, sans-serif;
             color: #000;
         }
-        #delta-symbol {
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
         #user-info {
             display: none;
             text-align: center;
         }
-        #google-login-btn {
-            display: none;
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #4285f4;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
         #logout-btn {
+            margin-top: 20px;
             padding: 10px 20px;
             font-size: 16px;
             background-color: #f44336;
@@ -45,59 +31,34 @@
             cursor: pointer;
         }
     </style>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- Load the Google Platform Library -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="1046897459308-dcj662j99qmusosd0pdipflbjj226aof.apps.googleusercontent.com"> <!-- Replace with your Client ID -->
 </head>
 <body>
-    <img id="delta-symbol" src="a7rt-120x120-B.png" alt="Delta Symbol" width="150" height="150" onclick="handleGoogleSignIn()">
+    <h2>Sign In with Google</h2>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div> <!-- Google Sign-In button -->
 
     <div id="user-info">
         <h3>Welcome, <span id="user-name"></span>!</h3>
         <p>Email: <span id="user-email"></span></p>
-        <button id="logout-btn">Logout</button>
+        <button id="logout-btn" onclick="signOut()">Sign out</button>
     </div>
 
     <script>
-        let googleAccountsInitialized = false;
-
-        function handleGoogleSignIn() {
-            if (!googleAccountsInitialized) {
-                initializeGoogleSignIn();
-                googleAccountsInitialized = true;
-            }
-            google.accounts.id.prompt(); // Trigger the Google Sign-In popup
-        }
-
-        function initializeGoogleSignIn() {
-            const clientId = "1046897459308-dcj662j99qmusosd0pdipflbjj226aof.apps.googleusercontent.com"; // Replace with your Client ID
-            google.accounts.id.initialize({
-                client_id: clientId,
-                callback: handleCredentialResponse
-            });
-        }
-
-        function handleCredentialResponse(response) {
-            const data = jwt_decode(response.credential);
-            document.getElementById('user-name').textContent = data.name;
-            document.getElementById('user-email').textContent = data.email;
+        function onSignIn(googleUser) {
+            const profile = googleUser.getBasicProfile();
+            document.getElementById('user-name').textContent = profile.getName();
+            document.getElementById('user-email').textContent = profile.getEmail();
             document.getElementById('user-info').style.display = 'block'; // Show user info
         }
 
-        document.getElementById('logout-btn').onclick = function () {
-            document.getElementById('user-info').style.display = 'none'; // Hide user info
-        };
-
-        function jwt_decode(token) {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(
-                atob(base64)
-                    .split('')
-                    .map(function (c) {
-                        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                    })
-                    .join('')
-            );
-            return JSON.parse(jsonPayload);
+        function signOut() {
+            const auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+                document.getElementById('user-info').style.display = 'none'; // Hide user info
+            });
         }
     </script>
 </body>
