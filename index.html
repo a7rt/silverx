@@ -45,17 +45,11 @@
             cursor: pointer;
         }
     </style>
-    <!-- Include Google's Identity Services library -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-    <!-- Delta Symbol -->
-    <img id="delta-symbol" src="a7rt-120x120-B.png" alt="Delta Symbol" width="120" height="120" onclick="showGoogleLoginButton()">
+    <img id="delta-symbol" src="a7rt-120x120-B.png" alt="Delta Symbol" width="150" height="150" onclick="handleGoogleSignIn()">
 
-    <!-- Google Sign-In Button -->
-    <button id="google-login-btn">Sign in with Google</button>
-
-    <!-- User Info -->
     <div id="user-info">
         <h3>Welcome, <span id="user-name"></span>!</h3>
         <p>Email: <span id="user-email"></span></p>
@@ -65,44 +59,33 @@
     <script>
         let googleAccountsInitialized = false;
 
-        // Show the Google Login button when the delta symbol is clicked
-        function showGoogleLoginButton() {
-            document.getElementById('google-login-btn').style.display = 'block';
+        function handleGoogleSignIn() {
             if (!googleAccountsInitialized) {
                 initializeGoogleSignIn();
                 googleAccountsInitialized = true;
             }
+            google.accounts.id.prompt(); // Trigger the Google Sign-In popup
         }
 
-        // Initialize Google Sign-In
         function initializeGoogleSignIn() {
             const clientId = "Y1046897459308-dcj662j99qmusosd0pdipflbjj226aof.apps.googleusercontent.com"; // Replace with your Client ID
             google.accounts.id.initialize({
                 client_id: clientId,
                 callback: handleCredentialResponse
             });
-
-            document.getElementById('google-login-btn').onclick = function () {
-                google.accounts.id.prompt(); // Trigger the Google Sign-In popup
-            };
         }
 
-        // Handle the credential response from Google
         function handleCredentialResponse(response) {
             const data = jwt_decode(response.credential);
             document.getElementById('user-name').textContent = data.name;
             document.getElementById('user-email').textContent = data.email;
             document.getElementById('user-info').style.display = 'block'; // Show user info
-            document.getElementById('google-login-btn').style.display = 'none'; // Hide Sign-In button
         }
 
-        // Logout function
         document.getElementById('logout-btn').onclick = function () {
             document.getElementById('user-info').style.display = 'none'; // Hide user info
-            document.getElementById('google-login-btn').style.display = 'block'; // Show Sign-In button
         };
 
-        // Helper function to decode JWT
         function jwt_decode(token) {
             const base64Url = token.split('.')[1];
             const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
