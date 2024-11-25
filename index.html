@@ -30,17 +30,14 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        #delta-symbol {
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
     </style>
     <!-- Load the Google Platform Library -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <meta name="google-signin-client_id" content="1046897459308-dcj662j99qmusosd0pdipflbjj226aof.apps.googleusercontent.com"> <!-- Replace with your Client ID -->
 </head>
 <body>
-    <img id="delta-symbol" src="a7rt-120x120-B.png" alt="Delta Symbol" width="150" height="150" onclick="signInWithGoogle()">
+    <h2>Sign In with Google</h2>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div> <!-- Google Sign-In button -->
 
     <div id="user-info">
         <h3>Welcome, <span id="user-name"></span>!</h3>
@@ -49,20 +46,6 @@
     </div>
 
     <script>
-        function signInWithGoogle() {
-            const element = document.createElement('div');
-            element.className = 'g-signin2';
-            element.setAttribute('data-onsuccess', 'onSignIn');
-            document.body.appendChild(element);
-            gapi.load('auth2', function() {
-                gapi.auth2.init({
-                    client_id: '1046897459308-dcj662j99qmusosd0pdipflbjj226aof.apps.googleusercontent.com' // Replace with your Client ID
-                }).then(function() {
-                    gapi.auth2.getAuthInstance().signIn();
-                });
-            });
-        }
-
         function onSignIn(googleUser) {
             const profile = googleUser.getBasicProfile();
             document.getElementById('user-name').textContent = profile.getName();
