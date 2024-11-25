@@ -7,37 +7,55 @@
     <style>
         body {
             display: flex;
-            flex-direction: column; /* Stack elements vertically */
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
             font-family: Arial, sans-serif;
-            color: #000; /* Color of the text */
+            color: #000;
         }
         #delta-symbol {
-            cursor: pointer; /* Change cursor to pointer for clickable image */
-            margin-bottom: 20px; /* Space between delta image and login */
+            cursor: pointer;
+            margin-bottom: 20px;
         }
         #user-info {
-            display: none; /* Initially hidden */
-            text-align: center; /* Center text */
+            display: none;
+            text-align: center;
         }
-        #g_id_signin {
-            margin-top: 20px; /* Space between delta and login */
+        #google-login-btn {
+            display: none;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #logout-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
     </style>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="Y1046897459308-dcj662j99qmusosd0pdipflbjj226aof.apps.googleusercontent.com"> <!-- Replace with your client ID -->
+    <!-- Include Google's Identity Services library -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
-    <img id="delta-symbol" src="a7rt-120x120-B.png" alt="Delta Symbol" width="150" height="150" onclick="handleDeltaClick()">
+    <!-- Delta Symbol -->
+    <img id="delta-symbol" src="a7rt-120x120-B.png" alt="Delta Symbol" width="120" height="120" onclick="showGoogleLoginButton()">
 
-    <div id="g_id_signin" class="g_id_signin" style="display: none;">
-        <div class="g_id_signin" data-type="standard"></div>
-    </div>
+    <!-- Google Sign-In Button -->
+    <button id="google-login-btn">Sign in with Google</button>
 
+    <!-- User Info -->
     <div id="user-info">
         <h3>Welcome, <span id="user-name"></span>!</h3>
         <p>Email: <span id="user-email"></span></p>
@@ -45,31 +63,59 @@
     </div>
 
     <script>
-        function handleDeltaClick() {
-            // Show the Google Sign-In button when the delta image is clicked
-            document.getElementById('g_id_signin').style.display = "block";
+        let googleAccountsInitialized = false;
+
+        // Show the Google Login button when the delta symbol is clicked
+        function showGoogleLoginButton() {
+            document.getElementById('google-login-btn').style.display = 'block';
+            if (!googleAccountsInitialized) {
+                initializeGoogleSignIn();
+                googleAccountsInitialized = true;
+            }
         }
 
-        function onSignIn(googleUser) {
-            var profile = googleUser.getBasicProfile();
-            document.getElementById('user-name').textContent = profile.getName();
-            document.getElementById('user-email').textContent = profile.getEmail();
-            document.getElementById('user-info').style.display = "block"; // Show user info
-            document.getElementById('g_id_signin').style.display = "none"; // Hide sign-in button
-        }
-
-        function signOut() {
-            var auth2 = gapi.auth2.getAuthInstance();
-            auth2.signOut().then(function () {
-                document.getElementById('user-info').style.display = "none"; // Hide user info
-                document.getElementById('g_id_signin').style.display = "block"; // Show sign-in button
+        // Initialize Google Sign-In
+        function initializeGoogleSignIn() {
+            const clientId = "Y1046897459308-dcj662j99qmusosd0pdipflbjj226aof.apps.googleusercontent.com"; // Replace with your Client ID
+            google.accounts.id.initialize({
+                client_id: clientId,
+                callback: handleCredentialResponse
             });
+
+            document.getElementById('google-login-btn').onclick = function () {
+                google.accounts.id.prompt(); // Trigger the Google Sign-In popup
+            };
         }
 
-        document.getElementById("logout-btn").onclick = function() {
-            signOut();
-        };
-    </script>
+        // Handle the credential response from Google
+        function handleCredentialResponse(response) {
+            const data = jwt_decode(response.credential);
+            document.getElementById('user-name').textContent = data.name;
+            document.getElementById('user-email').textContent = data.email;
+            document.getElementById('user-info').style.display = 'block'; // Show user info
+            document.getElementById('google-login-btn').style.display = 'none'; // Hide Sign-In button
+        }
 
+        // Logout function
+        document.getElementById('logout-btn').onclick = function () {
+            document.getElementById('user-info').style.display = 'none'; // Hide user info
+            document.getElementById('google-login-btn').style.display = 'block'; // Show Sign-In button
+        };
+
+        // Helper function to decode JWT
+        function jwt_decode(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(
+                atob(base64)
+                    .split('')
+                    .map(function (c) {
+                        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                    })
+                    .join('')
+            );
+            return JSON.parse(jsonPayload);
+        }
+    </script>
 </body>
 </html>
