@@ -35,12 +35,24 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        #language-link {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #000;
+            background-color: rgba(255, 255, 255, 0.7); /* Optional: background for better visibility */
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
     </style>
     <!-- Load the Google Platform Library -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <meta name="google-signin-client_id" content="1046897459308-dcj662j99qmusosd0pdipflbjj226aof.apps.googleusercontent.com"> <!-- Replace with your Client ID -->
 </head>
 <body>
+    <a id="language-link" href="index_en.html">ENG</a>
     <img id="logo" src="a7rt-sp-logo-150x150.png" alt="Logo" width="150" height="150">
     <div class="g-signin2" data-onsuccess="onSignIn"></div> <!-- Google Sign-In button -->
 
