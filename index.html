@@ -12,9 +12,14 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background-image: url('a7rt-sp-front_bkgd.png');
+            background-size: cover;
+            background-position: center;
             font-family: Arial, sans-serif;
             color: #000;
+        }
+        #logo {
+            margin-bottom: 20px;
         }
         #user-info {
             display: none;
@@ -36,7 +41,7 @@
     <meta name="google-signin-client_id" content="1046897459308-dcj662j99qmusosd0pdipflbjj226aof.apps.googleusercontent.com"> <!-- Replace with your Client ID -->
 </head>
 <body>
-    <img id="delta-symbol" src="a7rt-120x120-B.png" alt="Delta Symbol" width="120" height="120">
+    <img id="logo" src="a7rt-sp-logo-150x150.png" alt="Logo" width="150" height="150">
     <div class="g-signin2" data-onsuccess="onSignIn"></div> <!-- Google Sign-In button -->
 
     <div id="user-info">
