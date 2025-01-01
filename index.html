@@ -18,8 +18,25 @@
             font-family: Arial, sans-serif;
             color: #000;
         }
-        #logo {
+        #logo-container {
+            display: flex;
+            align-items: center;
             margin-bottom: 20px;
+        }
+        #logo {
+            margin-right: 10px; /* Space between logo and text */
+        }
+        #elite-text {
+            color: darkgreen; /* Dark green color */
+            font-size: 24px; /* Adjust font size as needed */
+            font-weight: bold; /* Bold text */
+        }
+        #slogan {
+            color: black; /* Black color */
+            font-size: 18px; /* Adjust font size as needed */
+            text-align: center;
+            margin-top: 5px; /* Space between slogan and logo */
+            font-weight: normal; /* Normal weight */
         }
         #user-info {
             display: none;
@@ -53,7 +70,11 @@
 </head>
 <body>
     <a id="language-link" href="index_en.html">ENG</a>
-    <img id="logo" src="a7rt-sp-logo-150x150.png" alt="Logo" width="150" height="150">
+    <div id="logo-container">
+        <img id="logo" src="a7rt-sp-logo-150x150.png" alt="Logo" width="150" height="150">
+        <div id="elite-text">菁英社</div>
+    </div>
+    <div id="slogan">動出活力，無限可能</div>
     <div class="g-signin2" data-onsuccess="onSignIn"></div> <!-- Google Sign-In button -->
 
     <div id="user-info">
