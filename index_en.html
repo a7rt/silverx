@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sign-In Integration</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: url('a7rt-sp-front_bkgd.png');
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            color: #000;
+        }
+        #logo {
+            margin-bottom: 20px;
+        }
+        #user-info {
+            display: none;
+            text-align: center;
+        }
+        #logout-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #language-link {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            text-decoration: none;
+            font-size: 16px;
+            color: #000;
+            background-color: rgba(255, 255, 255, 0.7); /* Optional: background for better visibility */
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+    </style>
+    <!-- Load the Google Platform Library -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="1046897459308-dcj662j99qmusosd0pdipflbjj226aof.apps.googleusercontent.com"> <!-- Replace with your Client ID -->
+</head>
+<body>
+    <a id="language-link" href="index.html">繁</a>
+    <img id="logo" src="a7rt-sp-logo-150x150.png" alt="Logo" width="150" height="150">
+    <div class="g-signin2" data-onsuccess="onSignIn"></div> <!-- Google Sign-In button -->
+
+    <div id="user-info">
+        <h3>Welcome, <span id="user-name"></span>!</h3>
+        <p>Email: <span id="user-email"></span></p>
+        <button id="logout-btn" onclick="signOut()">Sign out</button>
+    </div>
+
+    <script>
+        function onSignIn(googleUser) {
+            const profile = googleUser.getBasicProfile();
+            document.getElementById('user-name').textContent = profile.getName();
+            document.getElementById('user-email').textContent = profile.getEmail();
+            document.getElementById('user-info').style.display = 'block'; // Show user info
+        }
+
+        function signOut() {
+            const auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                console.log('User signed out.');
+                document.getElementById('user-info').style.display = 'none'; // Hide user info
+            });
+        }
+    </script>
+</body>
+</html>
