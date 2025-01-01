@@ -18,22 +18,49 @@
             font-family: Arial, sans-serif;
             color: #000;
         }
-        #logo {
+        #logo-container {
+            display: flex;
+            align-items: center;
             margin-bottom: 20px;
+        }
+        #logo {
+            margin-right: 10px; /* Space between logo and text */
+        }
+        #elite-text {
+            color: #333333; /* Deep dark grey color */
+            font-size: 50px; /* Font size set to 50px */
+            font-weight: bold; /* Bold text */
+        }
+        #slogan {
+            color: black; /* Black color */
+            font-size: 25px; /* Font size set to 25px */
+            text-align: center;
+            margin-top: 5px; /* Space between slogan and logo */
+            font-weight: normal; /* Normal weight */
+        }
+        .button {
+            margin: 10px; /* Space between buttons */
+            padding: 10px 25px; /* Adjust padding */
+            font-size: 20px; /* Font size set to 20px */
+            color: white; /* Text color */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none; /* Remove underline from links */
+            display: inline-block; /* Make the link behave like a button */
+            text-align: center;
+            font-weight: bold; /* Bold text */
+            width: 180px; /* Set a fixed width for uniformity */
+        }
+        .button-primary {
+            background: linear-gradient(45deg, #ffeb3b, #4caf50, #003366); /* Yellow to green to dark blue gradient for 免費加入 */
+        }
+        .button-secondary {
+            background: linear-gradient(45deg, #ff69b4, #9400d3); /* Pink to purple gradient for 健匯尊享 */
         }
         #user-info {
             display: none;
             text-align: center;
-        }
-        #logout-btn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #f44336;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
         }
         #language-link {
             position: absolute;
@@ -46,15 +73,24 @@
             padding: 5px 10px;
             border-radius: 5px;
         }
+        .button-container {
+            display: flex; /* Align buttons in a row */
+            margin-top: 20px; /* Add space between slogan and buttons */
+        }
     </style>
-    <!-- Load the Google Platform Library -->
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="1046897459308-dcj662j99qmusosd0pdipflbjj226aof.apps.googleusercontent.com"> <!-- Replace with your Client ID -->
 </head>
 <body>
-    <a id="language-link" href="index.html">繁</a>
-    <img id="logo" src="a7rt-sp-logo-150x150.png" alt="Logo" width="150" height="150">
-    <div class="g-signin2" data-onsuccess="onSignIn"></div> <!-- Google Sign-In button -->
+    <a id="language-link" href="index_en.html">ENG</a>
+    <div id="logo-container">
+        <img id="logo" src="a7rt-sp-logo-150x150.png" alt="Logo" width="150" height="150">
+        <div id="elite-text">Silver Pulse</div>
+    </div>
+    <div id="slogan">Move Out Vitality, Endless Possibilities</div>
+    
+    <div class="button-container">
+        <a href="fitfusion.html" class="button button-primary">Free to Join</a>
+        <a href="#" class="button button-secondary" onclick="googleLogin()">Fit Fusion Pro</a>
+    </div>
 
     <div id="user-info">
         <h3>Welcome, <span id="user-name"></span>!</h3>
@@ -63,11 +99,14 @@
     </div>
 
     <script>
-        function onSignIn(googleUser) {
-            const profile = googleUser.getBasicProfile();
-            document.getElementById('user-name').textContent = profile.getName();
-            document.getElementById('user-email').textContent = profile.getEmail();
-            document.getElementById('user-info').style.display = 'block'; // Show user info
+        function googleLogin() {
+            const auth2 = gapi.auth2.getAuthInstance();
+            auth2.signIn().then(function(googleUser) {
+                const profile = googleUser.getBasicProfile();
+                document.getElementById('user-name').textContent = profile.getName();
+                document.getElementById('user-email').textContent = profile.getEmail();
+                document.getElementById('user-info').style.display = 'block'; // Show user info
+            });
         }
 
         function signOut() {
@@ -78,5 +117,7 @@
             });
         }
     </script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="1046897459308-dcj662j99qmusosd0pdipflbjj226aof.apps.googleusercontent.com"> <!-- Replace with your Client ID -->
 </body>
 </html>
