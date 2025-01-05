@@ -17,7 +17,6 @@
             background-image: url('a7rt-sp-front_bkgd.png');
             background-size: cover;
             background-position: center;
-            /* background-color: #f4f4f4; */
             font-size: 15px; /* Font size for all text */
         }
         h1 {
@@ -69,9 +68,13 @@
             color: red;
             font-size: 12px; /* Error message font size */
         }
+        img {
+            margin-bottom: 20px; /* Space between logo and heading */
+        }
     </style>
 </head>
 <body>
+    <img src="a7rt-sp-logo-250x88.png" alt="Logo" width="250" height="88"> <!-- Logo Image -->
     <h1>會員登記</h1>
     <form id="register-form" onsubmit="handleSubmit(event)">
         <div class="form-group">
@@ -95,7 +98,7 @@
                 <option value="">選擇年份</option>
                 <script>
                     const currentYear = new Date().getFullYear();
-                    for (let year = currentYear-18; year >= currentYear-80; year--) {
+                    for (let year = currentYear - 18; year >= currentYear - 80; year--) {
                         document.write(`<option value="${year}">${year}</option>`);
                     }
                 </script>
