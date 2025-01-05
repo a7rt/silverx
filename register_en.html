@@ -95,7 +95,7 @@
                 <option value="">Select Year</option>
                 <script>
                     const currentYear = new Date().getFullYear();
-                    for (let year = currentYear-18; year >= currentYear-80; year--) {
+                    for (let year = currentYear - 18; year >= currentYear - 80; year--) {
                         document.write(`<option value="${year}">${year}</option>`);
                     }
                 </script>
@@ -103,7 +103,33 @@
         </div>
         <div class="form-group">
             <label for="district">District:</label>
-            <input type="text" id="district" name="district" required>
+            <select id="district" name="district" required>
+                <option value="">Select District</option>
+                <optgroup label="Hong Kong Island">
+                    <option value="Central and Western District">Central and Western District</option>
+                    <option value="Wan Chai">Wan Chai</option>
+                    <option value="Eastern District">Eastern District</option>
+                    <option value="Southern District">Southern District</option>
+                </optgroup>
+                <optgroup label="Kowloon">
+                    <option value="Sham Shui Po">Sham Shui Po</option>
+                    <option value="Yau Tsim Mong">Yau Tsim Mong</option>
+                    <option value="Kowloon City">Kowloon City</option>
+                    <option value="Wong Tai Sin">Wong Tai Sin</option>
+                    <option value="Kwun Tong">Kwun Tong</option>
+                </optgroup>
+                <optgroup label="New Territories">
+                    <option value="Sha Tin">Sha Tin</option>
+                    <option value="Tai Po">Tai Po</option>
+                    <option value="North District">North District</option>
+                    <option value="Yuen Long">Yuen Long</option>
+                    <option value="Tuen Mun">Tuen Mun</option>
+                    <option value="Sai Kung">Sai Kung</option>
+                    <option value="Islands">Islands</option>
+                    <option value="Tsuen Wan">Tsuen Wan</option>
+                    <option value="Kwai Tsing">Kwai Tsing</option>
+                </optgroup>
+            </select>
         </div>
         <div class="form-group">
             <label>
