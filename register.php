@@ -1,9 +1,9 @@
 <?php
 // Database configuration
 $servername = "localhost"; // or your NAS IP
-$username = "your_db_username"; // MariaDB username
-$password = "your_db_password"; // MariaDB password
-$dbname = "members_db"; // Your database name
+$username = "root"; // MariaDB username
+$password = "Mar**1234"; // MariaDB password
+$dbname = "silverpulse_db_test"; // Your database name
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
