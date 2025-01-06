@@ -248,7 +248,23 @@
                 return { isValid: false, message: 'Mobile number must be 8 digits long.' };
             }
             return { isValid: true, message: '' };
+        fetch('register.php', {
+               method: 'POST',
+               body: formData,
+              })
+         .then(response => response.json())
+         .then(data => {
+         if (data.success) {
+             alert(data.message); // Show success message
+             // Optionally, redirect or clear the form
+             } else {
+         alert(data.message); // Show error message
+    }
+})
+.catch((error) => {
+    console.error('Error:', error);
+});
         }
-    </script>
+        </script>
 </body>
 </html>
