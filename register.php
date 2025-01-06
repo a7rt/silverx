@@ -1,6 +1,6 @@
 <?php
 // Database configuration
-$servername = "localhost"; // or your NAS IP
+$servername = "192.168.0.217"; // or your NAS IP
 $username = "user"; // MariaDB username
 $password = "User1234"; // MariaDB password
 $dbname = "silverpulse_db_test"; // Your database name
