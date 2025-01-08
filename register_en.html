@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <script src="https://www.google.com/recaptcha/api.js?render=YOUR_SITE_KEY"></script> <!-- Replace YOUR_SITE_KEY -->
+    <script src="https://www.google.com/recaptcha/api.js?render=6LdkwrEqAAAAACqGR-EXmYyfMaMQKWDNSgF3b6fv"></script> <!-- Replace YOUR_SITE_KEY -->
     <style>
         body {
             display: flex;
@@ -178,7 +178,7 @@
             }
 
             // Execute reCAPTCHA and get the token
-            const token = await grecaptcha.execute('YOUR_SITE_KEY', { action: 'register' }); // Replace YOUR_SITE_KEY
+            const token = await grecaptcha.execute('6LdkwrEqAAAAACqGR-EXmYyfMaMQKWDNSgF3b6fv', { action: 'register' }); // Replace YOUR_SITE_KEY
 
             // Add the token to the form data
             const formData = new FormData(event.target);
