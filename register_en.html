@@ -23,7 +23,6 @@
             margin-bottom: 20px;
             font-size: 25px; /* Heading font size */
         }
-        <form id="register-form" action="register.php" method="POST" onsubmit="handleSubmit(event)">
         form {
             background: white;
             padding: 20px;
@@ -74,7 +73,7 @@
 <body>
     <img src="a7rt-sp-logo-250x75_en.png" alt="Logo" style="margin-bottom: 20px;"> <!-- Logo added here -->
     <h1>Member Registration</h1>
-    <form id="register-form" onsubmit="handleSubmit(event)">
+    <form id="register-form" action="http://192.168.0.217/register.php" method="POST" onsubmit="handleSubmit(event)">
         <div class="form-group">
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
