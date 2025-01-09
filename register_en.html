@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <script src="https://www.google.com/recaptcha/api.js?render=6LdkwrEqAAAAACqGR-EXmYyfMaMQKWDNSgF3b6fv"></script> <!-- Replace YOUR_SITE_KEY -->
+    <script src="https://www.google.com/recaptcha/api.js?render=6LdkwrEqAAAAACqGR-EXmYyfMaMQKWDNSgF3b6fv"></script>
     <style>
         body {
             display: flex;
@@ -17,11 +17,11 @@
             background-image: url('a7rt-sp-front_bkgd.png');
             background-size: cover;
             background-position: center;
-            font-size: 15px; /* Font size for all text */
+            font-size: 15px;
         }
         h1 {
             margin-bottom: 20px;
-            font-size: 25px; /* Heading font size */
+            font-size: 25px;
         }
         form {
             background: white;
@@ -47,31 +47,28 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-        input[type="checkbox"] {
-            margin-right: 8px;
-        }
         button {
-            background-color: green; /* Button color set to green */
+            background-color: green;
             color: white;
             padding: 10px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             width: 100%;
-            font-size: 15px; /* Button font size */
-            font-weight: bold; /* Button text bold */
+            font-size: 15px;
+            font-weight: bold;
         }
         button:hover {
-            background-color: #005700; /* Darker green on hover */
+            background-color: #005700;
         }
         .error {
             color: red;
-            font-size: 12px; /* Error message font size */
+            font-size: 12px;
         }
     </style>
 </head>
 <body>
-    <img src="a7rt-sp-logo-250x75_en.png" alt="Logo" style="margin-bottom: 20px;"> <!-- Logo added here -->
+    <img src="a7rt-sp-logo-250x75_en.png" alt="Logo" style="margin-bottom: 20px;">
     <h1>Member Registration</h1>
     <form id="register-form" action="http://192.168.0.217/register.php" method="POST" onsubmit="handleSubmit(event)">
         <div class="form-group">
@@ -136,63 +133,59 @@
                 <input type="checkbox" id="terms" name="terms" required> I agree to the Terms and Conditions
             </label>
         </div>
-        <button type="submit">Join</button> <!-- Button with updated color -->
+        <button type="submit">Join</button>
     </form>
 
     <script>
         async function handleSubmit(event) {
             event.preventDefault(); // Prevent the default form submission
 
-            // Validate username
             const username = document.getElementById('username').value;
             const usernameError = document.getElementById('username-error');
-            usernameError.textContent = ''; // Clear previous error messages
-
+            usernameError.textContent = '';
             const usernameValidation = validateUsername(username);
             if (!usernameValidation.isValid) {
                 usernameError.textContent = usernameValidation.message;
-                return; // Stop form submission if validation fails
+                return;
             }
 
-            // Validate password
             const password = document.getElementById('password').value;
             const passwordError = document.getElementById('password-error');
-            passwordError.textContent = ''; // Clear previous error messages
-
+            passwordError.textContent = '';
             const passwordValidation = validatePassword(password, username);
             if (!passwordValidation.isValid) {
                 passwordError.textContent = passwordValidation.message;
-                return; // Stop form submission if validation fails
+                return;
             }
 
-            // Validate mobile number
             const mobile = document.getElementById('mobile').value;
             const mobileError = document.getElementById('mobile-error');
-            mobileError.textContent = ''; // Clear previous error messages
-
+            mobileError.textContent = '';
             const mobileValidation = validateMobile(mobile);
             if (!mobileValidation.isValid) {
                 mobileError.textContent = mobileValidation.message;
-                return; // Stop form submission if validation fails
+                return;
             }
 
             // Execute reCAPTCHA and get the token
-            const token = await grecaptcha.execute('6LdkwrEqAAAAACqGR-EXmYyfMaMQKWDNSgF3b6fv', { action: 'register' }); // Replace YOUR_SITE_KEY
+            const token = await grecaptcha.execute('6LdkwrEqAAAAACqGR-EXmYyfMaMQKWDNSgF3b6fv', { action: 'register' });
 
-            // Add the token to the form data
             const formData = new FormData(event.target);
             formData.append('recaptcha_response', token);
 
-            // Send the form data to your server (modify the URL as needed)
-            fetch('YOUR_SERVER_ENDPOINT', {
+            // Send the form data to your server
+            fetch('http://192.168.0.217/register.php', { // Replace with your actual server endpoint
                 method: 'POST',
                 body: formData,
             })
             .then(response => response.json())
             .then(data => {
-                // Handle the response from your server
                 console.log('Success:', data);
-                // Optionally, redirect or show a success message
+                if (data.success) {
+                    alert(data.message);
+                } else {
+                    alert(data.message);
+                }
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -200,20 +193,14 @@
         }
 
         function validateUsername(username) {
-            const usernameRegex = /^[a-zA-Z][a-zA-Z0-9_]{3,19}$/; // Rule: start with a letter, 4-20 chars, alphanumeric + underscore
+            const usernameRegex = /^[a-zA-Z][a-zA-Z0-9_]{3,19}$/;
             if (!usernameRegex.test(username)) {
-                if (!/^[a-zA-Z]/.test(username)) {
-                    return { isValid: false, message: 'Username must start with a letter and contain only letters, numbers, or underscores.' };
-                }
-                return { isValid: false, message: 'Username must be between 4 and 20 characters long.' };
+                return { isValid: false, message: 'Username must start with a letter and contain only letters, numbers, or underscores.' };
             }
-
-            // Mock existing usernames array (replace with actual database check)
-            const existingUsernames = ['user1', 'admin', 'testuser'];
+            const existingUsernames = ['user1', 'admin', 'testuser']; // Mocked
             if (existingUsernames.includes(username)) {
                 return { isValid: false, message: 'Username is already taken. Please choose another.' };
             }
-
             return { isValid: true, message: '' };
         }
 
@@ -223,7 +210,7 @@
             const lowercasePattern = /[a-z]/;
             const digitPattern = /[0-9]/;
             const specialCharPattern = /[!@#$%^&*]/;
-            const commonPasswords = ['password123', '12345678', 'qwerty']; // Add more common passwords as needed
+            const commonPasswords = ['password123', '12345678', 'qwerty'];
 
             if (password.length < minLength) {
                 return { isValid: false, message: 'Password must be at least 8 characters long.' };
@@ -237,33 +224,16 @@
             if (password.includes(username)) {
                 return { isValid: false, message: 'Password should not contain the username.' };
             }
-
             return { isValid: true, message: '' };
         }
 
         function validateMobile(mobile) {
-            const mobileRegex = /^\d{8}$/; // Must be exactly 8 digits
+            const mobileRegex = /^\d{8}$/;
             if (!mobileRegex.test(mobile)) {
                 return { isValid: false, message: 'Mobile number must be 8 digits long.' };
             }
             return { isValid: true, message: '' };
-        fetch('register.php', {
-               method: 'POST',
-               body: formData,
-              })
-         .then(response => response.json())
-         .then(data => {
-         if (data.success) {
-             alert(data.message); // Show success message
-             // Optionally, redirect or clear the form
-             } else {
-         alert(data.message); // Show error message
-    }
-})
-.catch((error) => {
-    console.error('Error:', error);
-});
         }
-        </script>
+    </script>
 </body>
 </html>
